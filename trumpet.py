@@ -65,3 +65,14 @@ print(tweets[0].retweet_count)
 print(tweets[0].geo)
 print(tweets[0].coordinates)
 print(tweets[0].entities)
+
+# We add relevant data:
+data['len']  = np.array([len(tweet.text) for tweet in tweets])
+data['ID']   = np.array([tweet.id for tweet in tweets])
+data['Date'] = np.array([tweet.created_at for tweet in tweets])
+data['Source'] = np.array([tweet.source for tweet in tweets])
+data['Likes']  = np.array([tweet.favorite_count for tweet in tweets])
+data['RTs']    = np.array([tweet.retweet_count for tweet in tweets])
+
+# Display of first 10 elements from dataframe:
+display(data.head(10))
