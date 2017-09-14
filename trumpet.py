@@ -45,3 +45,9 @@ data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
 
 # We display the first 10 elements of the dataframe:
 display(data.head(10))
+
+# We create a pandas dataframe as follows:
+data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
+
+# We display the first 10 elements of the dataframe:
+display(data.head(10))
