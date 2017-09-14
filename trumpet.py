@@ -51,3 +51,17 @@ data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
 
 # We display the first 10 elements of the dataframe:
 display(data.head(10))
+
+# Internal methods of a single tweet object:
+print(dir(tweets[0]))
+
+# We print info from the first tweet:
+
+print(tweets[0].id)
+print(tweets[0].created_at)
+print(tweets[0].source)
+print(tweets[0].favorite_count)
+print(tweets[0].retweet_count)
+print(tweets[0].geo)
+print(tweets[0].coordinates)
+print(tweets[0].entities)
