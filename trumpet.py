@@ -2,7 +2,7 @@
 import tweepy           # To consume Twitter's API
 import pandas as pd     # To handle data
 import numpy as np      # For number computing
-import matplotlib 
+import matplotlib
 
 # For plotting and visualization:
 from IPython.display import display
@@ -36,6 +36,12 @@ print("Number of tweets extracted: {}.\n".format(len(tweets)))
 
 # We print the most recent 5 tweets:
 print("5 recent tweets:\n")
-for tweet in tweets[:5]:
+for tweet in tweets[:10]:
     print(tweet.text)
     print()
+
+# We create a pandas dataframe as follows:
+data = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
+
+# We display the first 10 elements of the dataframe:
+display(data.head(10))
