@@ -3,11 +3,13 @@ import tweepy           # To consume Twitter's API
 import pandas as pd     # To handle data
 import numpy as np      # For number computing
 import matplotlib
+import textblob
 
 # For plotting and visualization:
 from IPython.display import display
 import matplotlib.pyplot as plt
 import seaborn as sns
+# %matplotlib inline
 plt.ion()
 
 # We import our access keys:
@@ -99,3 +101,86 @@ print("{} characters.\n".format(data['len'][fav]))
 print("The tweet with more retweets is: \n{}".format(data['Tweets'][rt]))
 print("Number of retweets: {}".format(rt_max))
 print("{} characters.\n".format(data['len'][rt]))
+
+# We create time series for data:
+
+tlen = pd.Series(data=data['len'].values, index=data['Date'])
+tfav = pd.Series(data=data['Likes'].values, index=data['Date'])
+tret = pd.Series(data=data['RTs'].values, index=data['Date'])
+
+# Lenghts along time:
+tlen.plot(figsize=(16,4), color='r');
+
+# Likes vs retweets visualization:
+tfav.plot(figsize=(16,4), label="Likes", legend=True)
+tret.plot(figsize=(16,4), label="Retweets", legend=True);
+
+# We obtain all possible sources:
+sources = []
+for source in data['Source']:
+    if source not in sources:
+        sources.append(source)
+
+# We print sources list:
+print("Creation of content sources:")
+for source in sources:
+    print("* {}".format(source))
+
+    # We create a numpy vector mapped to labels:
+percent = np.zeros(len(sources))
+
+for source in data['Source']:
+    for index in range(len(sources)):
+        if source == sources[index]:
+            percent[index] += 1
+            pass
+
+percent /= 100
+
+# Pie chart:
+pie_chart = pd.Series(percent, index=sources, name='Sources')
+pie_chart.plot.pie(fontsize=11, autopct='%.2f', figsize=(6, 6));
+
+#Sentiment Analysis
+
+from textblob import TextBlob
+import re
+
+def clean_tweet(tweet):
+    '''
+    Utility function to clean the text in a tweet by removing
+    links and special characters using regex.
+    '''
+    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+
+def analize_sentiment(tweet):
+    '''
+    Utility function to classify the polarity of a tweet
+    using textblob.
+    '''
+    analysis = TextBlob(clean_tweet(tweet))
+    if analysis.sentiment.polarity > 0:
+        return 1
+    elif analysis.sentiment.polarity == 0:
+        return 0
+    else:
+        return -1
+
+    # We create a column with the result of the analysis:
+data['SA'] = np.array([ analize_sentiment(tweet) for tweet in data['Tweets'] ])
+
+# We display the updated dataframe with the new column:
+display(data.head(10))
+
+
+# We construct lists with classified tweets:
+
+pos_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] > 0]
+neu_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] == 0]
+neg_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] < 0]
+
+# We print percentages:
+
+print("Percentage of positive tweets: {}%".format(len(pos_tweets)*100/len(data['Tweets'])))
+print("Percentage of neutral tweets: {}%".format(len(neu_tweets)*100/len(data['Tweets'])))
+print("Percentage de negative tweets: {}%".format(len(neg_tweets)*100/len(data['Tweets'])))
