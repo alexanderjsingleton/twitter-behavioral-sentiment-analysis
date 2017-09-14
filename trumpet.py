@@ -76,3 +76,26 @@ data['RTs']    = np.array([tweet.retweet_count for tweet in tweets])
 
 # Display of first 10 elements from dataframe:
 display(data.head(10))
+
+# We extract the mean of lengths:
+mean = np.mean(data['len'])
+
+print("The length's average in tweets: {}".format(mean))
+
+# We extract the tweet with more FAVs and more RTs:
+
+fav_max = np.max(data['Likes'])
+rt_max  = np.max(data['RTs'])
+
+fav = data[data.Likes == fav_max].index[0]
+rt  = data[data.RTs == rt_max].index[0]
+
+# Max FAVs:
+print("The tweet with more likes is: \n{}".format(data['Tweets'][fav]))
+print("Number of likes: {}".format(fav_max))
+print("{} characters.\n".format(data['len'][fav]))
+
+# Max RTs:
+print("The tweet with more retweets is: \n{}".format(data['Tweets'][rt]))
+print("Number of retweets: {}".format(rt_max))
+print("{} characters.\n".format(data['len'][rt]))
