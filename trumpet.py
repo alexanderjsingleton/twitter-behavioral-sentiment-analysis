@@ -10,7 +10,8 @@ from IPython.display import display
 import matplotlib.pyplot as plt
 import seaborn as sns
 # %matplotlib inline
-plt.ion()
+# plt.ion()
+
 
 # We import our access keys:
 from credentials import *    # This will allow us to use the keys as variables
@@ -107,13 +108,17 @@ print("{} characters.\n".format(data['len'][rt]))
 tlen = pd.Series(data=data['len'].values, index=data['Date'])
 tfav = pd.Series(data=data['Likes'].values, index=data['Date'])
 tret = pd.Series(data=data['RTs'].values, index=data['Date'])
+plt.show()
 
 # Lenghts along time:
+
 tlen.plot(figsize=(16,4), color='r');
+plt.show()
 
 # Likes vs retweets visualization:
 tfav.plot(figsize=(16,4), label="Likes", legend=True)
 tret.plot(figsize=(16,4), label="Retweets", legend=True);
+plt.show()
 
 # We obtain all possible sources:
 sources = []
@@ -140,6 +145,7 @@ percent /= 100
 # Pie chart:
 pie_chart = pd.Series(percent, index=sources, name='Sources')
 pie_chart.plot.pie(fontsize=11, autopct='%.2f', figsize=(6, 6));
+plt.show()
 
 #Sentiment Analysis
 
