@@ -34,7 +34,7 @@ def twitter_setup():
 extractor = twitter_setup()
 
 # We create a tweet list as follows:
-tweets = extractor.user_timeline(screen_name="realDonaldTrump", count=200)
+tweets = extractor.user_timeline(screen_name="theajsingleton", count=200)
 print("Number of tweets extracted: {}.\n".format(len(tweets)))
 
 # We print the most recent 5 tweets:
@@ -110,7 +110,7 @@ tfav = pd.Series(data=data['Likes'].values, index=data['Date'])
 tret = pd.Series(data=data['RTs'].values, index=data['Date'])
 plt.show()
 
-# Lenghts along time:
+# Lengths along time:
 
 tlen.plot(figsize=(16,4), color='r');
 plt.show()
@@ -184,6 +184,7 @@ display(data.head(10))
 pos_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] > 0]
 neu_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] == 0]
 neg_tweets = [ tweet for index, tweet in enumerate(data['Tweets']) if data['SA'][index] < 0]
+
 
 # We print percentages:
 
